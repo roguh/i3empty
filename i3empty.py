@@ -10,7 +10,7 @@ def get_ws():
     return json.loads(run('i3-msg -t get_workspaces'.split(), stdout=PIPE).stdout)
 
 
-def to_empty(current=None, strict=False, right=True, container=False, wrap=True, min_num=1):
+def to_empty(current=None, strict=False, right=True, move=False, wrap=True, min_num=1):
     """Move to nearest empty numbered workspace"""
     if current is None:
         current = [w for w in get_ws() if w['focused']][0]
@@ -40,7 +40,10 @@ def to_empty(current=None, strict=False, right=True, container=False, wrap=True,
         else:
             return
 
-    s = 'i3-msg {}workspace {}'.format('move container to ' if container else '', new_ix)
+    if move:
+        s = 'i3-msg move container to workspace {0}; workspace {0}'.format(new_ix)
+    else:
+        s = 'i3-msg workspace ' + str(new_ix)
     print(s)
     run(s.split())
 
@@ -64,18 +67,18 @@ if __name__ == '__main__':
                         help='either next (default) or prev')
     parser.add_argument('number', type=int, nargs='?',
                         help='workspace to start searching from (default: current)')
-    parser.add_argument('-r, --relative', dest='rel', type=bool, default=False,
+    parser.add_argument('-r', '--relative', dest='rel', action='store_true',
                         help='use workspace indices, not numbers (default: no)')
-    parser.add_argument('-w, --wrap', dest='wrap', type=bool, default=True,
+    parser.add_argument('-w', '--nowrap', dest='wrap', action='store_false',
                         help='if at edge, wrap around to other edge (default: yes)')
-    parser.add_argument('-s, --strict', dest='strict', type=bool, default=True,
+    parser.add_argument('-s', '--nostrict', dest='strict', action='store_false',
                         help='numbered workspaces have a numeric name (default: yes)')
-    parser.add_argument('-m, --move', dest='move', type=bool, default=False,
+    parser.add_argument('-m', '--move', dest='move', action='store_true',
                         help='move container to new workspace (default: no)')
 
     args = parser.parse_args()
     kwargs = {'right': args.direction.lower().strip() == 'next', 
-              'wrap': args.wrap, 'strict': args.strict}
+              'wrap': args.wrap, 'strict': args.strict, 'move': args.move}
 
     if type(args.number) is int:
         to_empty_near(args.number, relative=args.rel, **kwargs)
