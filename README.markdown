@@ -27,20 +27,18 @@ bindsym $mod+Ctrl+0 exec --no-startup-id i3empty.py next 10
 Run `i3empty.py next` or `i3empty.py prev`.
 
 ```
-i3empty.py [-h] [-r, --relative REL] [-w, --wrap WRAP]
-           [-s, --strict STRICT] [-m, --move MOVE]
-           [direction] [number]
+usage: i3empty.py [-h] [-r] [-w] [-s] [-m] [direction] [number]
 
 Switch to an empty numbered workspace.
 
 positional arguments:
-  direction            either next (default) or prev
-  number               workspace to start searching from (default: current)
+  direction       either next (default) or prev
+  number          workspace to start searching from (default: current)
 
 optional arguments:
-  -h, --help           show this help message and exit
-  -r, --relative REL   use workspace indices, not numbers (default: no)
-  -w, --wrap WRAP      if at edge, wrap around to other edge (default: yes)
-  -s, --strict STRICT  numbered workspaces have a numeric name (default: yes)
-  -m, --move MOVE      move container to new workspace (default: no)
+  -h, --help      show this help message and exit
+  -r, --relative  use workspace indices, not numbers (default: no)
+  -w, --nowrap    if at edge, wrap around to other edge (default: yes)
+  -s, --nostrict  numbered workspaces have a numeric name (default: yes)
+  -m, --move      move container to new workspace (default: no)
 ```
