@@ -7,19 +7,25 @@ Quickly switch to a new numbered workspace.
 Place these lines in your i3 config for wrap-around switching:
 
 ```
+# Move to a new empty workspace
 bindsym $mod+Ctrl+Left exec --no-startup-id i3empty.py prev
 bindsym $mod+Ctrl+Right exec --no-startup-id i3empty.py next
 
-bindsym $mod+Ctrl+1 exec --no-startup-id i3empty.py next 1
-bindsym $mod+Ctrl+2 exec --no-startup-id i3empty.py next 2
-bindsym $mod+Ctrl+3 exec --no-startup-id i3empty.py next 3
-bindsym $mod+Ctrl+4 exec --no-startup-id i3empty.py next 4
-bindsym $mod+Ctrl+5 exec --no-startup-id i3empty.py next 5
-bindsym $mod+Ctrl+6 exec --no-startup-id i3empty.py next 6
-bindsym $mod+Ctrl+7 exec --no-startup-id i3empty.py next 7
-bindsym $mod+Ctrl+8 exec --no-startup-id i3empty.py next 8
-bindsym $mod+Ctrl+9 exec --no-startup-id i3empty.py next 9
-bindsym $mod+Ctrl+0 exec --no-startup-id i3empty.py next 10
+# Move a window to a new empty workspace
+bindsym $mod+Shift+Ctrl+Left exec --no-startup-id i3empty.py --move prev
+bindsym $mod+Shift+Ctrl+Right exec --no-startup-id i3empty.py --move next
+
+# Move to empty workspace near a given workspace
+bindsym $mod+Mod1+1 exec --no-startup-id i3empty.py next 1
+bindsym $mod+Mod1+2 exec --no-startup-id i3empty.py next 2
+bindsym $mod+Mod1+3 exec --no-startup-id i3empty.py next 3
+bindsym $mod+Mod1+4 exec --no-startup-id i3empty.py next 4
+bindsym $mod+Mod1+5 exec --no-startup-id i3empty.py next 5
+bindsym $mod+Mod1+6 exec --no-startup-id i3empty.py next 6
+bindsym $mod+Mod1+7 exec --no-startup-id i3empty.py next 7
+bindsym $mod+Mod1+8 exec --no-startup-id i3empty.py next 8
+bindsym $mod+Mod1+9 exec --no-startup-id i3empty.py next 9
+bindsym $mod+Mod1+0 exec --no-startup-id i3empty.py next 10 
 ```
 
 ## Usage
