@@ -1,9 +1,9 @@
 #!/bin/env python3
-import sys
-import re
-import json
-from subprocess import run, PIPE
 import argparse
+import json
+import re
+import sys
+from subprocess import PIPE, run
 
 
 def get_ws():
@@ -17,15 +17,15 @@ def to_empty(current=None, strict=False, right=True, move=False, wrap=True, min_
 
     numbered = re.compile('^\d+$' if strict else '^\d+|(\d+:.*)$')
 
-    ns = {w['num'] for w in get_ws() if numbered.match(w['name']) != None and 
+    ns = {w['num'] for w in get_ws() if numbered.match(w['name']) != None and
           (not strict or w['name'] == str(w['num']))}
 
     if numbered.match(current['name']) is None:
-        # If current workspace is unnumbered, pick rightmost or leftmost 
+        # If current workspace is unnumbered, pick rightmost or leftmost
         if len(ns) == 0:
             new_ix = min_num
         else:
-            new_ix = min(ns) - 1 if right else max(ns) + 1 
+            new_ix = min(ns) - 1 if right else max(ns) + 1
     else:
         # Find numbered workspace nearest to current
         new_ix = current['num']
@@ -52,7 +52,7 @@ def to_empty_near(num, relative=False, **kwargs):
     """Move to empty numbered workspace nearest to workspace 'num'"""
     if relative:
         if 0 <= num < len(get_ws()):
-            current = get_ws()[num] 
+            current = get_ws()[num]
         else:
             return
     else:
@@ -75,10 +75,17 @@ if __name__ == '__main__':
                         help='numbered workspaces have a numeric name (default: yes)')
     parser.add_argument('-m', '--move', dest='move', action='store_true',
                         help='move container to new workspace (default: no)')
+    parser.add_argument('-2', '--with-exponentiation', dest='exp',
+                        type=int, default=1,
+                        help='0^ARG, 1^ARG, 2^ARG, ...')
 
     args = parser.parse_args()
-    kwargs = {'right': args.direction.lower().strip() == 'next', 
+    kwargs = {'right': args.direction.lower().strip() == 'next',
+              'exp': args.exp,
               'wrap': args.wrap, 'strict': args.strict, 'move': args.move}
+
+    if args.exp != 1:
+        raise NotImplemented
 
     if type(args.number) is int:
         to_empty_near(args.number, relative=args.rel, **kwargs)
