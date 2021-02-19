@@ -75,17 +75,10 @@ if __name__ == '__main__':
                         help='numbered workspaces have a numeric name (default: yes)')
     parser.add_argument('-m', '--move', dest='move', action='store_true',
                         help='move container to new workspace (default: no)')
-    parser.add_argument('-2', '--with-exponentiation', dest='exp',
-                        type=int, default=1,
-                        help='0^ARG, 1^ARG, 2^ARG, ...')
 
     args = parser.parse_args()
     kwargs = {'right': args.direction.lower().strip() == 'next',
-              'exp': args.exp,
               'wrap': args.wrap, 'strict': args.strict, 'move': args.move}
-
-    if args.exp != 1:
-        raise NotImplemented
 
     if type(args.number) is int:
         to_empty_near(args.number, relative=args.rel, **kwargs)
